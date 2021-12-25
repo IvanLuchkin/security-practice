@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: security
+  datasource:
+    url: jdbc:postgresql://localhost:5432/security
+    username: security
+    password: security
+    hikari:
+      data-source-properties: stringtype=unspecified
+      maximum-pool-size: 20
+  sleuth:
+    trace-id128: true
+  flyway:
+    locations: classpath:/db/migration
+    user: security
+    password: security
+  jmx:
+    enabled: true
+  jackson:
+    deserialization:
+      USE_LONG_FOR_INTS: true
+      USE_BIG_DECIMAL_FOR_FLOATS: true
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_ENUMS: true
+  cache:
+    type: caffeine
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+server:
+  port: 8080
+  shutdown: graceful
+  error:
+    include-stacktrace: always
+    include-exception: true
+  forward-headers-strategy: native
+---
+spring:
+  flyway:
+    locations: classpath:/db/migration,classpath:/db/development
+  config:
+    activate:
+      on-profile: development
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: jdbc:postgresql://backend_db_1:5432/security

@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:13.4
+    ports:
+      - "5432${DB_PORT}"
+    environment:
+      POSTGRES_DB: security
+      POSTGRES_USER: security
+      POSTGRES_PASSWORD: security
+      TZ: 'GMT'
+      PGTZ: 'GMT'
