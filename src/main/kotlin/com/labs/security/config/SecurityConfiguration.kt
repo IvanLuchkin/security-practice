@@ -52,5 +52,11 @@ class SecurityConfiguration(
   fun authenticationEntryPoint() = CustomBasicAuthenticationEntryPoint()
 
   @Bean
-  fun passwordEncoder(): PasswordEncoder = Argon2PasswordEncoder()
+  fun passwordEncoder(): PasswordEncoder = Argon2PasswordEncoder(
+    16,
+    32,
+    1,
+    16384,
+    3
+  )
 }
