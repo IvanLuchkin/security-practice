@@ -31,7 +31,6 @@ class AuthApi(
 
   @GetMapping("/login")
   fun login(): ResponseEntity<ApiUser> {
-    println("im called")
     return ResponseEntity(authenticationFacade.getLoggedInUser().toApi(), HttpStatus.valueOf(200))
   }
 }

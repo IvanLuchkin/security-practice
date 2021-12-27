@@ -36,7 +36,6 @@ export const Login: React.FC = () => {
       await login();
     } catch (e) {
       AuthStorage.clear();
-      console.log(e);
       alert.show(e.message);
     }
   };

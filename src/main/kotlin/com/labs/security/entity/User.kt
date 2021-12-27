@@ -10,10 +10,10 @@ data class User(
   @Id
   val id: Long? = null,
   val username: String,
-  val address: String? = null,
+  val address: Address? = null,
   val password: String,
 ) {
-  fun toApi(): ApiUser = ApiUser(username, address)
+  fun toApi(): ApiUser = ApiUser(username, address?.toApi())
 
   fun toUserDetails(): UserDetails = User.withUsername(username).password(password).authorities(emptyList()).build()
 }

@@ -43,7 +43,6 @@ export const Register: React.FC = () => {
       await apiRegister(data.username, data.password);
     } catch (e) {
       AuthStorage.clear();
-      console.log(e);
       alert.show(e);
     }
   };

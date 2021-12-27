@@ -27,6 +27,9 @@ spring:
   cache:
     type: caffeine
 
+encryption:
+  key: "@NcRfUjXn2r5u8x/A%D*G-KaPdSgVkYp"
+
 management:
   endpoints:
     web:
