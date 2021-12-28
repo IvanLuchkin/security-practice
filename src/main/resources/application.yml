@@ -45,7 +45,7 @@ server:
     key-store: classpath:localhost.p12
     key-store-password: changeit
     key-alias: localhost
-    enabled-protocols: TLSv1.2, TLSv1.3
+    enabled-protocols: TLSv1.3
   port: 8080
   shutdown: graceful
   error:
