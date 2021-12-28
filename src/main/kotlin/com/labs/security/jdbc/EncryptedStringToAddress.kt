@@ -9,22 +9,27 @@ import org.springframework.stereotype.Component
 import java.security.GeneralSecurityException
 import java.util.*
 import javax.crypto.Cipher
+import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 @Component
 @ReadingConverter
 class EncryptedStringToAddress(
-  private val encryptionProperties: EncryptionProperties
+  encryptionProperties: EncryptionProperties
 ): Converter<String, Address> {
-  private val aes = "AES"
-  private lateinit var secret: String
-  private val key = SecretKeySpec(encryptionProperties.key.toByteArray(), aes)
+  private val aes = "AES/GCM/NoPadding"
+  private val key = SecretKeySpec(encryptionProperties.key.toByteArray(), "AES")
   private val cipher = Cipher.getInstance(aes)
 
   override fun convert(source: String): Address {
     try {
-      cipher.init(Cipher.DECRYPT_MODE, key)
-      val decryptedAddress = cipher.doFinal(Base64.getDecoder().decode(source))
+      val base64DecipheredSource = Base64.getDecoder().decode(source)
+      val gcmIv = GCMParameterSpec(128, base64DecipheredSource, 0, 12)
+      cipher.init(Cipher.DECRYPT_MODE, key, gcmIv)
+      val decryptedAddress = cipher.doFinal(
+        base64DecipheredSource,
+        12,
+        base64DecipheredSource.size - 12)
       return Address(decryptedAddress.toString())
     } catch (e: GeneralSecurityException) {
       throw IllegalStateException(e)
