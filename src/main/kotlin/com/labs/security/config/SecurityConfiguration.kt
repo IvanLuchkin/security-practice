@@ -5,6 +5,7 @@ import com.labs.security.security.DbUserDetailsPasswordService
 import com.labs.security.security.DbUserDetailsService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -13,6 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +32,7 @@ class SecurityConfiguration(
       .authorizeRequests { auth ->
         auth.antMatchers("/register", "/login")
           .permitAll()
+          .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
           .anyRequest()
           .authenticated()
       }

@@ -80,7 +80,7 @@ export const request = async (context: any): Promise<Response> => {
 };
 
 const createFetchParams = (context: any) => {
-  const url = 'http://localhost:8080' + context.path;
+  const url = 'https://localhost:8080' + context.path;
 
   const body =
     context.body instanceof FormData || context.body instanceof URLSearchParams
@@ -91,6 +91,6 @@ const createFetchParams = (context: any) => {
     method: context.method,
     headers: context.headers,
     body,
-  };
+  } as RequestInit;
   return { url, init };
 };
